@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ui.css">
+    <title>Formular</title>
+</head>
+<body>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+}
+ 
+body {
+    font-family: Arial, sans-serif;
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+ 
+.mainContainer {
+    display: flex;
+    right: 1rem;
+}
+ 
+.mainbox {
+    background-color: #2f2fc8;
+    padding: 20px;
+    border: 1px solid cornflowerblue;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgb(117, 112, 112);
+    width: 500px;
+}
+ 
+.mainHeader {
+    text-align: center;
+    margin:10px;
+    padding: 4px;
+    font-size: 24px;
+    color: #2f2fc8;
+    background-color: lightblue;
+    border: 2px solid ;
+    border-radius: 4rem; 
+}
+ 
+form div {
+    margin-bottom: 15px;
+}
+ 
+label {
+    display: flex;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.536);
+}
+:placeholder-shown {
+    color:rgb(117, 112, 112) ;
+    background-color: #2f2fc8;
+}
+:placeholder-shown:active {
+    transition: all 1s;
+    background-color: lightblue;
+}
+:checked input {
+    font-size: xx-large;
+
+}
+input {
+    color: #2f2fc8;
+    width: 80%;
+    padding: 1rem;
+    border: 1px solid rgb(117, 112, 112);
+    border-radius: 4px;
+    font-size: 14px;
+}
+ 
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2f2fc8;
+    color: lightblue;
+    border: 2px solid lightblue;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 1s;
+}
+ 
+button:hover {
+    background-color: lightblue;
+    border: 2px solid #2f2fc8;
+    color: #2f2fc8;
+    transition: all 1s;
+}
+form {
+    color: rgb(117, 112, 112) ;
+    text-align: left;
+    max-width: 500px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.error {
+    color: red;
+    font-size: 14px;
+}
+    </style>
+    <div class="mainContainer">
+        <form action="/submit-order" method="post" class="mainbox" id="myForm">
+            <h2 class="mainHeader">Objednávací formulář</h2>
+            <div class="form_grey">
+                <label for="username">Jméno a příjmení:</label>
+                <input type="text" id="username" placeholder="Zadejte jméno">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Zadejte email">
+            </div>
+            <div>
+                <label for="phone">Telefonní číslo:</label>
+                <input type="tel" id="phone" placeholder="Zadejte telefon">
+            </div>
+            <div>
+                <label for="adress">Adresa:</label>
+                <input type="text" id="adress" placeholder="Zadejte adresu">
+            </div>
+            <div>
+                <label for="city">Město:</label>
+                <input type="text" id="city" placeholder="Zadejte město">
+            </div>
+            <div>
+                <label for="postal">PSČ:</label>
+                <input type="number" id="postal" placeholder="Zadejte PSČ" minlength="3" maxlength="6">
+            </div>
+        </form>
+        <form action="/submit-order" method="post" class="mainbox" id="myForm">
+            <h2 class="mainHeader">Způsob doručení a platby</h2>
+            <div>
+                <label for="username">Způsob doručení:</label>
+                <div>DPD <input type="checkbox" id="DPD" checked></div>
+                <div>GLS <input type="checkbox" id="GLS"></div>
+                <div>PPL <input type="checkbox" id="PPL"></div>
+            </div>
+            <div>
+                <label for="adress">Způsob platby:</label>
+                <div>Online <input type="checkbox" id="DPD" checked></div>
+                <div>Dobírkou <input type="checkbox" id="GLS"></div>
+                <div>Bankovním převodem <input type="checkbox" id="PPL"></div>
+                <label for="address">Adresa (ulice a číslo domu):</label>
+                <input type="text" id="address" name="address" placeholder="Např. Hlavní 123" required>
+                <div id="addressError" class="error"></div>
+        
+                <label for="phone">Telefonní číslo:</label>
+                <input type="text" id="phone" name="phone" placeholder="+420xxxxxxxxx" required>
+                <div id="phoneError" class="error"></div>
+        
+                <button style="align-self: end;" type="button" id="submitBtn" onclick="odeslano()">Odeslat</button>
+        
+            </form>
+    </div>
+</div>
+
+
+    <script>
+        function odeslano() {
+            alert("Objednávka je nyní nastavena")
+        }
+        const form = document.getElementById("myForm");
+        const addressInput = document.getElementById("address");
+        const phoneInput = document.getElementById("phone");
+        const addressError = document.getElementById("addressError");
+        const phoneError = document.getElementById("phoneError");
+
+        form.addEventListener("submit", function(event) {
+            let isValid = true;
+
+            // Validace adresy
+            const addressValue = addressInput.value.trim();
+            const addressRegex = /.+\s+\d+/; // Text + mezera + číslo
+            if (!addressRegex.test(addressValue)) {
+                isValid = false;
+                addressError.textContent = "Adresa musí obsahovat ulici a číslo domu (např. Hlavní 123).";
+            } else {
+                addressError.textContent = "";
+            }
+
+            // Validace telefonního čísla
+            const phoneValue = phoneInput.value.trim();
+            const phoneRegex = /^\+420\d{9}$/; // +420 + 9 číslic
+            if (!phoneRegex.test(phoneValue)) {
+                isValid = false;
+                phoneError.textContent = "Telefonní číslo musí být ve formátu +420xxxxxxxxx.";
+            } else {
+                phoneError.textContent = "";
+            }
+
+            // Zastavení odesílání, pokud jsou chyby
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+    </script>
+
+</body>
+</html>
